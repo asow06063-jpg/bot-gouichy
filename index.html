@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bot Gouichy V4</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#020906;color:#eafff2;font-family:Arial,sans-serif}
+header{height:68px;background:#04130c;border-bottom:1px solid #12301f;display:flex;align-items:center;justify-content:space-between;padding:0 18px}
+.logo{font-weight:700;font-size:20px}.menu{color:#83e9ae;font-size:25px}
+main{max-width:850px;margin:auto;padding:25px 16px}.hero{text-align:center;padding:20px}.hero h1{margin:0;font-size:32px}.hero p{color:#789789;letter-spacing:1.5px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.card,.stat{background:#071810;border:1px solid #123524;border-radius:17px;padding:18px;margin-top:14px}.stat b{display:block;font-size:24px}.stat span{color:#789789;font-size:13px}
+h2{font-size:18px;margin-top:0}.ok{color:#78efaa}.warn{color:#ffd27a}.log{padding:10px 0;border-bottom:1px solid #10281b;color:#8ca99a;font-size:13px}
+code{background:#04120c;padding:3px 6px;border-radius:5px;color:#a8f2c7}
+@media(max-width:650px){.grid{grid-template-columns:1fr}}
+</style></head>
+<body><header><div class="logo">🤖 Bot Gouichy</div><div class="menu">☰</div></header>
+<main><section class="hero"><h1>BOT GOUICHY V4</h1><p>WEBHOOK WHATSAPP + MOTEUR DE COMMANDES</p></section>
+<div class="grid"><div class="stat"><b id="server">...</b><span>Serveur</span></div><div class="stat"><b id="config">...</b><span>API configurée</span></div><div class="stat"><b id="events">0</b><span>Événements</span></div></div>
+<section class="card"><h2>🔗 Webhook</h2><p>Endpoint : <code>/webhook</code></p><p>Le serveur vérifie le token lors de l'installation du webhook puis reçoit les événements entrants.</p></section>
+<section class="card"><h2>⚡ Commandes</h2><p><code>/menu</code> <code>/ping</code> <code>/info</code> <code>/help</code></p><p>Les commandes administrateur sont contrôlées séparément.</p></section>
+<section class="card"><h2>📜 Derniers événements</h2><div id="logs">Chargement...</div></section>
+</main>
+<script>
+async function refresh(){try{const s=await fetch('/api/status').then(r=>r.json());server.textContent=s.online?'● En ligne':'Hors ligne';config.textContent=s.configured?'Oui':'Non';events.textContent=s.events;const l=await fetch('/api/logs').then(r=>r.json());logs.innerHTML=l.length?l.map(x=>`<div class="log">${x.at}<br><b>${x.from}</b> — ${x.text}</div>`).join(''):'Aucun événement.'}catch(e){server.textContent='Hors ligne'}}
+refresh();setInterval(refresh,5000);
+</script></body></html>
