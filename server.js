@@ -7,7 +7,7 @@ const ACCESS_TOKEN=process.env.WHATSAPP_ACCESS_TOKEN||"";
 const PHONE_NUMBER_ID=process.env.WHATSAPP_PHONE_NUMBER_ID||"";
 
 app.use(express.json());
-app.use(express.static("public"));
+app.get("/", (req,res) => res.sendFile(process.cwd() + "/index.html"));
 
 const admins=new Set();
 const logs=[];
